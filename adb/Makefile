@@ -67,7 +67,7 @@ LOCAL_STATIC_LIBRARIES := libcutils libc
 ################################
 
 OBJS = $(LOCAL_SRC_FILES:.cpp=.o) $(LOCAL_SRC_C_FILES:.c=.o)
-CXXFLAGS = $(OPT_CXXFLAGS) -std=c++14 $(LOCAL_CFLAGS) $(LOCAL_INCLUDES)
+CXXFLAGS = $(OPT_CXXFLAGS) -static -std=c++14 $(LOCAL_CFLAGS) $(LOCAL_INCLUDES)
 CFLAGS= $(OPT_CFLAGS) $(LOCAL_CFLAGS) $(LOCAL_INCLUDES)
 
 %.o: %.cpp
@@ -81,7 +81,7 @@ CFLAGS= $(OPT_CFLAGS) $(LOCAL_CFLAGS) $(LOCAL_INCLUDES)
 all: $(LOCAL_MODULE) xdg-adbd
 
 $(LOCAL_MODULE): $(OBJS)
-	${CXX} -fPIC $(CXXFLAGS) $^ -L ../libcutils/*.o ../base/*.o ../libcrypto_utils/*.o -lpthread -lresolv -lcrypto -lssl -lutil -o $@
+	${CXX} -fPIC $(CXXFLAGS) $^ -L ../libcutils/*.o ../base/*.o ../libcrypto_utils/*.o -lpthread -lresolv -lcrypto -ldl -lssl -lutil -o $@
 	#g++ -fPIC $(CXXFLAGS) $^ -L ../libcutils/*.o ../base/*.o ../libcrypto_utils/*.o -lpthread -lresolv -lcrypto -lssl -lutil -o $@
 
 xdg-adbd: xdg-adbd.c
